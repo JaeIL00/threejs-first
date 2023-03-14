@@ -1,43 +1,32 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import "./App.css";
 import * as THREE from "three";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Stars } from "@react-three/drei";
 
 function App() {
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
+  return (
+    <div style={{ width: "100vw", height: "100vh" }}>
+      {/* Canvas Size By Parents */}
+      <Canvas>
+        {/* Space Stars Background */}
+        <Stars />
+
+        {/* Control Object */}
+        <OrbitControls />
+
+        {/* Light on Object for Color & Shadow */}
+        <ambientLight intensity={0.5} />
+        <spotLight position={[10, 15, 10]} angle={0.3} />
+
+        {/* Object */}
+        <mesh position={[0, 0, 0]}>
+          {/* <boxBufferGeometry attatch="geometry" /> */}
+          <boxGeometry args={[2, 2, 2]} />
+          <meshLambertMaterial attatch="material" color="orange" />
+        </mesh>
+      </Canvas>
+    </div>
   );
-
-  const renderer = new THREE.WebGLRenderer();
-  renderer.setSize(window.innerWidth / 2, window.innerHeight / 2, false);
-  document.body.appendChild(renderer.domElement);
-
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
-  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  const cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
-
-  camera.position.z = 5;
-
-  function animate() {
-    requestAnimationFrame(animate);
-
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-
-    renderer.render(scene, camera);
-  }
-
-  animate();
-  // return (
-  //   <div>
-  //     <div></div>
-  //   </div>
-  // );
 }
 
 export default App;
